@@ -1,0 +1,36 @@
+# Dependencies
+node_modules/
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+
+# Environment
+.env
+backend/.env
+frontend/.env
+
+# Build
+dist/
+build/
+*.egg-info/
+
+# Data
+backend/uploads/
+backend/chroma_db/
+backend/edugenie.db
+docx_extract/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
