@@ -1,6 +1,7 @@
 import json
 
 from app.services.gemini_service import generate_json
+from app.services.gemini_service import AIServiceError
 from app.services.rag_service import query_context
 
 
@@ -30,8 +31,8 @@ def generate_quiz(
     if isinstance(result, dict):
         result = result.get("questions", [])
 
-    if not result:
-        result = _fallback_questions(topic, num_questions)
+    if not isinstance(result, list) or not result:
+        raise AIServiceError("The AI model did not return any quiz questions.")
 
     return result[:num_questions]
 
@@ -61,20 +62,3 @@ def evaluate_answers(questions: list[dict], answers: list) -> tuple[float, list[
         })
 
     return float(correct), results
-
-
-def _fallback_questions(topic: str, num: int) -> list[dict]:
-    questions = []
-    for i in range(num):
-        questions.append({
-            "question": f"What is an important concept in {topic}? (Question {i + 1})",
-            "type": "mcq",
-            "options": [
-                f"Concept A related to {topic}",
-                f"Concept B related to {topic}",
-                f"Concept C related to {topic}",
-                f"Concept D related to {topic}",
-            ],
-            "correct_answer": 0,
-        })
-    return questions

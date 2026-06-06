@@ -34,4 +34,4 @@ if (!existsSync(backendEnv)) {
   copyFileSync(join(backendDir, '.env.example'), backendEnv);
 }
 
-console.log('\nBackend setup complete. Add your GEMINI_API_KEY in backend/.env when you need AI features.');
+console.log('\nBackend setup complete. Configure Gemini or Ollama in backend/.env for AI features.');

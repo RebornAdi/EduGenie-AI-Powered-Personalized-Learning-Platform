@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Bot, Send, User } from 'lucide-react';
-import { materialsAPI, tutorAPI } from '../api/client';
+import { getApiError, materialsAPI, tutorAPI } from '../api/client';
 
 export default function Tutor() {
   const [messages, setMessages] = useState([
@@ -35,10 +35,13 @@ export default function Tutor() {
         ...prev,
         { role: 'assistant', content: res.data.reply, sources: res.data.sources },
       ]);
-    } catch {
+    } catch (error) {
       setMessages((prev) => [
         ...prev,
-        { role: 'assistant', content: 'Sorry, I encountered an error. Please try again.' },
+        {
+          role: 'assistant',
+          content: getApiError(error, 'The AI tutor could not complete this request.'),
+        },
       ]);
     } finally {
       setLoading(false);

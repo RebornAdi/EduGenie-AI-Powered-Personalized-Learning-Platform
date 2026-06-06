@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { CheckCircle, XCircle, Brain } from 'lucide-react';
-import { quizAPI } from '../api/client';
+import { getApiError, quizAPI } from '../api/client';
 
 export default function Quiz() {
   const [topic, setTopic] = useState('');
@@ -10,12 +10,14 @@ export default function Quiz() {
   const [answers, setAnswers] = useState([]);
   const [results, setResults] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const handleGenerate = async (e) => {
     e.preventDefault();
     if (!topic.trim()) return;
     setLoading(true);
     setResults(null);
+    setError('');
     try {
       const res = await quizAPI.generate({
         topic: topic.trim(),
@@ -24,6 +26,8 @@ export default function Quiz() {
       });
       setQuiz(res.data);
       setAnswers(new Array(res.data.questions.length).fill(null));
+    } catch (requestError) {
+      setError(getApiError(requestError, 'The quiz could not be generated.'));
     } finally {
       setLoading(false);
     }
@@ -50,6 +54,11 @@ export default function Quiz() {
     <div>
       <h1 className="text-3xl font-bold text-slate-900 mb-2">Quiz Generator</h1>
       <p className="text-slate-500 mb-8">AI-generated quizzes from your study materials</p>
+      {error && (
+        <div className="mb-6 max-w-2xl rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+          {error}
+        </div>
+      )}
 
       {!quiz ? (
         <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 max-w-lg">

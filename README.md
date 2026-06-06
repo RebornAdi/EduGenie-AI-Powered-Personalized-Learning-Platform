@@ -6,7 +6,7 @@ A full-stack EdTech platform that analyzes student performance, generates person
 
 - **User Authentication** — JWT-based registration and login
 - **Study Materials** — PDF upload with subject categorization
-- **AI Tutor** — RAG-powered chat using uploaded notes (Gemini + ChromaDB)
+- **AI Tutor** — RAG-powered chat using uploaded notes (Gemini or local Ollama + ChromaDB)
 - **Quiz Generator** — Auto-generated MCQ and True/False questions
 - **Analytics Dashboard** — Performance trends, topic mastery, quiz accuracy
 - **Study Planner** — AI-generated daily study schedules
@@ -19,13 +19,13 @@ A full-stack EdTech platform that analyzes student performance, generates person
 | Frontend | React, Tailwind CSS, React Router, Axios, Recharts |
 | Backend | FastAPI, SQLAlchemy, JWT |
 | Database | SQLite |
-| AI/ML | Gemini API, Sentence Transformers, ChromaDB, Scikit-learn |
+| AI/ML | Gemini API or Ollama, Sentence Transformers, ChromaDB, Scikit-learn |
 
 ## Prerequisites
 
 - Node.js 18+
 - Python 3.11+
-- [Gemini API Key](https://aistudio.google.com/apikey)
+- A [Gemini API key](https://aistudio.google.com/apikey), or [Ollama](https://ollama.com/) for fully local generation
 
 ## Quick Start
 
@@ -43,7 +43,30 @@ This installs frontend dependencies, creates `backend/.venv`, installs Python de
 backend/.env
 ```
 
-Set your `GEMINI_API_KEY` when you want AI features. The local database uses SQLite by default at `backend/edugenie.db`.
+Choose either cloud Gemini or a local Ollama model in `backend/.env`.
+
+Gemini:
+
+```env
+AI_PROVIDER=gemini
+GEMINI_API_KEY=your-real-key
+GEMINI_MODEL=gemini-2.5-flash
+```
+
+Local Ollama (no API key):
+
+```bash
+ollama pull gemma3:4b
+```
+
+```env
+AI_PROVIDER=ollama
+OLLAMA_MODEL=gemma3:4b
+```
+
+`AI_PROVIDER=auto` uses Gemini when a valid key is present and otherwise uses
+Ollama. Restart the backend after changing `.env`. The local database uses
+SQLite by default at `backend/edugenie.db`.
 
 ### 3. Run The App
 
