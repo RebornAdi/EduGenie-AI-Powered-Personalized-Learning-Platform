@@ -1,0 +1,4 @@
+API_PREFIX = "/api"
+
+TOKEN_TYPE = "bearer"
+JWT_ALGORITHM = "HS256"
