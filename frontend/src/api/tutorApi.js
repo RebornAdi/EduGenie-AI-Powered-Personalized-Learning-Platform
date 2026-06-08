@@ -2,12 +2,14 @@ import api from "./client";
 
 export async function askTutor(
   token,
+  subjectId,
   question
 ) {
   const response = await api.post(
     "/tutor",
     {
-      question,
+      subject_id: subjectId,
+      question: question,
     },
     {
       headers: {

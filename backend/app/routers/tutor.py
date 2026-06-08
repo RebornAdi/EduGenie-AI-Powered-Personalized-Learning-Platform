@@ -29,7 +29,14 @@ def ask_tutor(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    materials = db.query(Material).all()
+    materials = (
+        db.query(Material)
+        .filter(
+            Material.subject_id ==
+            request.subject_id
+        )
+        .all()
+    )
 
     context = ""
 
@@ -38,19 +45,25 @@ def ask_tutor(
             context += material.content[:5000]
 
     prompt = f"""
-You are EduGenie AI Tutor.
+        You are EduGenie AI Tutor.
 
-Answer ONLY using the study material.
+        Rules:
+        - Answer using ONLY the study material.
+        - Use markdown formatting.
+        - Use headings.
+        - Use bullet points.
+        - Explain clearly for engineering students.
+        - Give examples whenever possible.
+        - If information is unavailable, say so.
 
-Study Material:
+        Study Material:
 
-{context}
+        {context}
 
-Question:
+        Student Question:
 
-{request.question}
-"""
-
+        {request.question}
+        """
     answer = ask_ollama(prompt)
 
     return {
