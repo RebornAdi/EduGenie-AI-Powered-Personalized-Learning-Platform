@@ -1,7 +1,15 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.routers import auth
+from app.database.database import Base, engine
+
+# Import ALL models here so SQLAlchemy registers them
+from app.models.user import User
+from app.models.subject import Subject
+
+from app.routers import auth, subjects
+
+Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
     title="EduGenie API",
@@ -20,6 +28,7 @@ app.add_middleware(
 )
 
 app.include_router(auth.router)
+app.include_router(subjects.router)
 
 @app.get("/")
 def root():

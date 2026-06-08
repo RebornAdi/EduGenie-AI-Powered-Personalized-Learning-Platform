@@ -4,7 +4,7 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-
+import SubjectsPage from "./pages/SubjectsPage";
 import CursorMathTrail from "./components/CursorMathTrail";
 
 import LoginPage from "./pages/LoginPage";
@@ -42,6 +42,11 @@ export default function App() {
             <Route
               index
               element={<DashboardPage />}
+            />
+
+            <Route
+              path="subjects"
+              element={<SubjectsPage />}
             />
           </Route>
 
