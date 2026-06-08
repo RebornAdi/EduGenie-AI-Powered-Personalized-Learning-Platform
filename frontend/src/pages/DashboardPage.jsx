@@ -16,7 +16,7 @@ import {
 
 import { useAuth } from "../contexts/AuthContext";
 import { getCurrentUser } from "../api/userApi";
-
+import useSubjects from "../hooks/useSubjects";
 const chartData = [
   { day: "Mon", score: 55 },
   { day: "Tue", score: 60 },
@@ -28,7 +28,7 @@ const chartData = [
 
 export default function DashboardPage() {
   const { token } = useAuth();
-
+  const { subjects } = useSubjects();
   const [user, setUser] = useState(null);
 
   useEffect(() => {
@@ -60,7 +60,7 @@ export default function DashboardPage() {
     {
       icon: BookOpen,
       title: "Subjects",
-      value: "6",
+      value: subjects.length,
     },
     {
       icon: Trophy,

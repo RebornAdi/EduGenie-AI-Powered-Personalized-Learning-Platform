@@ -9,6 +9,16 @@ from app.models.subject import Subject
 
 from app.routers import auth, subjects
 
+from app.models.material import Material
+
+from app.routers import (
+    auth,
+    subjects,
+    materials,
+)
+
+from app.routers import tutor
+
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
@@ -29,6 +39,8 @@ app.add_middleware(
 
 app.include_router(auth.router)
 app.include_router(subjects.router)
+app.include_router(materials.router)
+app.include_router(tutor.router)
 
 @app.get("/")
 def root():

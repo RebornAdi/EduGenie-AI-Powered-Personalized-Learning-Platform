@@ -4,11 +4,13 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-import SubjectsPage from "./pages/SubjectsPage";
+
 import CursorMathTrail from "./components/CursorMathTrail";
 
 import LoginPage from "./pages/LoginPage";
 import DashboardPage from "./pages/DashboardPage";
+import SubjectsPage from "./pages/SubjectsPage";
+import TutorPage from "./pages/TutorPage";
 
 import DashboardLayout from "./layouts/DashboardLayout";
 import ProtectedRoute from "./routes/ProtectedRoute";
@@ -21,15 +23,21 @@ export default function App() {
       <BrowserRouter>
         <Routes>
 
+          {/* Redirect Root */}
+
           <Route
             path="/"
             element={<Navigate to="/dashboard" />}
           />
 
+          {/* Public Routes */}
+
           <Route
             path="/login"
             element={<LoginPage />}
           />
+
+          {/* Protected Routes */}
 
           <Route
             path="/dashboard"
@@ -39,15 +47,27 @@ export default function App() {
               </ProtectedRoute>
             }
           >
+            {/* Dashboard Home */}
+
             <Route
               index
               element={<DashboardPage />}
             />
 
+            {/* Subjects */}
+
             <Route
               path="subjects"
               element={<SubjectsPage />}
             />
+
+            {/* AI Tutor */}
+
+            <Route
+              path="tutor"
+              element={<TutorPage />}
+            />
+
           </Route>
 
         </Routes>
